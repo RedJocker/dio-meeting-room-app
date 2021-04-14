@@ -2,7 +2,7 @@ import { RoomDetailsComponent } from 'src/app/room-details/room-details.componen
 import { Observable } from "rxjs";
 import { RoomService } from "../room.service";
 import { Room } from "../room";
-import { Component, OnInit } from "@angular/core";
+import { Component, OnInit, ChangeDetectorRef } from "@angular/core";
 import { Router } from '@angular/router';
 
 @Component({
@@ -14,7 +14,7 @@ export class RoomListComponent implements OnInit {
   rooms: Observable<Room[]>;
 
   constructor(private roomService: RoomService,
-    private router: Router) {}
+    private router: Router, private cd: ChangeDetectorRef) {}
 
   ngOnInit() {
     this.reloadData();
@@ -30,6 +30,7 @@ export class RoomListComponent implements OnInit {
         data => {
           console.log(data);
           this.reloadData();
+          this.cd.markForCheck();
         },
         error => console.log(error));
   }
